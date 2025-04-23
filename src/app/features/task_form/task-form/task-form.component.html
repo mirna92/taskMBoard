@@ -1,0 +1,86 @@
+<div
+  *ngIf="!loading; else loadingRef"
+  class="w-full bg-white dark:!bg-dark-bg p-6 border border-gray-200 rounded-lg shadow-md"
+>
+  <form
+    name="branchForm"
+    #branchForm="ngForm"
+    [formGroup]="taskForm"
+    (ngSubmit)="branchForm.valid && submit()"
+    dir="rtl"
+  >
+    <div class="mb-8">
+      <h3 id="title" class="text-xl font-extrabold text-center">
+        {{ data.taskToEdit ? "Update Task" : "Add New Task" }}
+      </h3>
+    </div>
+    <mat-form-field class="w-full mb-4" appearance="outline">
+      <mat-label>title</mat-label>
+      <input
+        type="text"
+        formControlName="title"
+        matInput
+        placeholder="Please, Enter The Title of Task"
+        required
+      />
+      <mat-error *ngIf="taskForm.get('title')?.hasError('required')">
+        Please, Enter The Title of Task
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="w-full mb-4" appearance="outline">
+      <mat-label>description</mat-label>
+      <input
+        type="text"
+        formControlName="description"
+        matInput
+        placeholder="Please, Enter The description of Task"
+      />
+    </mat-form-field>
+
+    <mat-form-field class="w-full mb-4" appearance="outline">
+      <mat-label>DueDate</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        min="1900-01-01"
+        formControlName="dueDate"
+        required
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="taskForm.get('dueDate')?.hasError('required')">
+        Due Date required
+      </mat-error>
+      <mat-error
+        *ngIf="
+          !taskForm.get('dueDate')?.hasError('required') &&
+          taskForm.get('dueDate')?.hasError('invalidDate')
+        "
+      >
+        Please, Enter valid duedate
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="w-full mb-4" appearance="outline">
+      <mat-label>status</mat-label>
+      <mat-select formControlName="status" required>
+        <mat-option value="todo">todo </mat-option>
+        <mat-option value="in-progress"> in-progress</mat-option>
+        <mat-option value="done"> done</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="flex justify-center items-center">
+      <button
+        type="submit"
+        class="px-6 py-3 bg-gray-100 text-gray-600 font-semibold rounded-lg shadow-sm hover:text-green-800 hover:bg-green-50 w-52"
+      >
+        {{ data.taskToEdit ? "Update Task" : "Add Task" }}
+      </button>
+    </div>
+  </form>
+</div>
+
+<ng-template #loadingRef>
+  <app-loader></app-loader>
+</ng-template>
