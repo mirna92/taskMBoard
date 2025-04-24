@@ -2,7 +2,6 @@ import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {
   FormBuilder,
-  FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
@@ -51,7 +50,6 @@ export class TaskFormComponent {
     });
   }
   async ngOnInit() {
-    // إذا كان هناك مهمة لتعديلها، ملء النموذج بالبيانات الحالية
     if (this.data.taskToEdit) {
       this.taskForm.patchValue({
         title: this.data.taskToEdit.title,

@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { API_URL } from '../../utils/setting';
 export interface Task {
   id: number;
   title: string;
@@ -12,23 +13,23 @@ export interface Task {
   providedIn: 'root'
 })
 export class TaskApiService {
-  private readonly API_URL = 'http://localhost:3000/tasks';
+
   constructor(private http: HttpClient) {}
 
   getTasks(){
-    return this.http.get<Task[]>(this.API_URL);
+    return this.http.get<Task[]>(API_URL);
   }
 
   createTask(task: Partial<Task>) {
-    return this.http.post<Task>(this.API_URL, task);
+    return this.http.post<Task>(API_URL, task);
   }
 
   updateTask(id: number, changes: Partial<Task>) {
-    return this.http.patch<Task>(this.API_URL+"/"+id, changes);
+    return this.http.patch<Task>(API_URL+"/"+id, changes);
   }
 
   deleteTask(id: number) {
-    return this.http.delete(`${this.API_URL}/${id}`);
+    return this.http.delete(`${API_URL}/${id}`);
   }
 
 }
