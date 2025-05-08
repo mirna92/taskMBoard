@@ -22,7 +22,7 @@
     Add New Task
   </button>
 </div>
-<div class="flex justify-evenly m-5">
+<div class="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 m-auto">
   <div
     [ngStyle]="{
       'border-color':
@@ -32,7 +32,7 @@
           ? '#075985'
           : 'rgb(22, 101, 52)'
     }"
-    class="w-[450px] shadow-lg border-t-8 bg-gray-100 rounded-lg"
+    class="lg:w-full shadow-lg border-t-8 bg-gray-100 rounded-lg"
     *ngFor="let status of statuses"
   >
     <h2 class="font-extrabold text-lg text-center my-5">
@@ -52,12 +52,19 @@
       (cdkDropListDropped)="onDrop($event)"
       [cdkDropListConnectedTo]="statuses"
     >
-    <div
-    *ngIf="(status === 'todo' ? todoTasks : status === 'in-progress' ? inProgressTasks : doneTasks)?.length == 0"
-    class="text-gray-400 text-center italic p-4 border border-dashed rounded"
-  >
-    No tasks
-  </div>
+      <div
+        *ngIf="
+          (status === 'todo'
+            ? todoTasks
+            : status === 'in-progress'
+            ? inProgressTasks
+            : doneTasks
+          )?.length == 0
+        "
+        class="text-gray-400 text-center italic p-4 border border-dashed rounded"
+      >
+        No tasks
+      </div>
       <div
         *ngFor="
           let task of status === 'todo'
@@ -73,15 +80,15 @@
           cdkDrag
           [cdkDragData]="task"
         >
-          <h3><span >Title:</span> {{ task.title }}</h3>
-          <p><span >Description:</span> {{ task.description }}</p>
-          <p><span >Due:</span> {{ task.dueDate }}</p>
+          <h3><span>Title:</span> {{ task.title }}</h3>
+          <p><span>Description:</span> {{ task.description }}</p>
+          <p><span>Due:</span> {{ task.dueDate }}</p>
 
           <hr class="my-2" />
           <div class="flex">
             <button
               (click)="onEdit(task)"
-              class="flex gap-2 justify-center m-auto px-2 py-3 bg-blue-100 text-gray-600 font-semibold rounded-lg shadow-sm hover:text-blue-800 w-48"
+              class="flex gap-2 justify-center m-auto px-2 py-3 bg-blue-100 text-gray-600 font-semibold rounded-lg shadow-sm hover:text-blue-800 lg:w-48 md:w-48 "
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -109,7 +116,7 @@
 
             <button
               (click)="onDeleteTask(task)"
-              class="flex gap-2 justify-center m-auto px-2 py-3 bg-orange-50 text-gray-600 font-semibold rounded-lg shadow-sm hover:text-orange-800 w-48"
+              class="flex gap-2 justify-center m-auto px-2 py-3 bg-orange-50 text-gray-600 font-semibold rounded-lg shadow-sm hover:text-orange-800 lg:w-48 md:w-48 sm:w-36"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -133,10 +140,7 @@
               Delete Task
             </button>
           </div>
-
-      
         </div>
-    
       </div>
     </div>
   </div>

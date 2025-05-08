@@ -7,7 +7,7 @@
     #branchForm="ngForm"
     [formGroup]="taskForm"
     (ngSubmit)="branchForm.valid && submit()"
-    dir="rtl"
+
   >
     <div class="mb-8">
       <h3 id="title" class="text-xl font-extrabold text-center">
@@ -20,7 +20,6 @@
         type="text"
         formControlName="title"
         matInput
-        placeholder="Please, Enter The Title of Task"
         required
       />
       <mat-error *ngIf="taskForm.get('title')?.hasError('required')">
@@ -65,9 +64,7 @@
     <mat-form-field class="w-full mb-4" appearance="outline">
       <mat-label>status</mat-label>
       <mat-select formControlName="status" required>
-        <mat-option value="todo">todo </mat-option>
-        <mat-option value="in-progress"> in-progress</mat-option>
-        <mat-option value="done"> done</mat-option>
+    <mat-option *ngFor="let entry of statuses" [value]="entry">{{entry}}</mat-option>
       </mat-select>
     </mat-form-field>
     <div class="flex justify-center items-center">

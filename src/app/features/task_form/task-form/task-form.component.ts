@@ -7,14 +7,17 @@ import {
   Validators,
   FormsModule,
 } from '@angular/forms';
-import { CreateTask, UpdateTask } from '../../../state/task.actions';
+
+import { CreateTask, UpdateTask } from '@state/task.actions';
 import { Store } from '@ngxs/store';
-import { LoaderComponent } from '../../../shared/components/loader/loader.component';
+import { LoaderComponent } from '@shared/components/loader/loader.component';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
+import { TaskStatus } from '@models/task-status.enum';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-task-form',
   imports: [
@@ -33,13 +36,14 @@ import { MatSelectModule } from '@angular/material/select';
 export class TaskFormComponent {
   public taskForm!: FormGroup;
   loading = false;
-  statuses = ['todo', 'in-progress', 'done'];
+  statuses = Object.values(TaskStatus);
   @Output() formSubmit = new EventEmitter();
 
   constructor(
     private fb: FormBuilder,
     private store: Store,
     private dialog: MatDialog,
+    private toaster: ToastrService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.taskForm = this.fb.group({
@@ -59,11 +63,13 @@ export class TaskFormComponent {
       });
     }
   }
+
   futureDateValidator(input: any) {
     const selectedDate = new Date(input.value);
     const currentDate = new Date();
     return selectedDate > currentDate ? null : { invalidDate: true };
   }
+
   submit() {
     try {
       if (!this.taskForm.valid && !this.taskForm.disabled) {
@@ -77,8 +83,10 @@ export class TaskFormComponent {
         this.store.dispatch(
           new UpdateTask(this.data.taskToEdit.id, this.taskForm.value)
         );
+        this.toaster.success('Modified successfully');
       } else {
         this.store.dispatch(new CreateTask(this.taskForm.value));
+        this.toaster.success('Added successfully');
       }
       this.formSubmit.emit();
       this.taskForm.reset();

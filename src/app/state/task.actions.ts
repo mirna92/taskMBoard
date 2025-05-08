@@ -1,4 +1,4 @@
-import { Task } from '../services/task-api.service';
+import { Task } from 'src/app/core/services/task-api.service';
 
 export class LoadTasks {
   static readonly type = '[Task] Load Tasks';

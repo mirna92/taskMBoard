@@ -9,7 +9,7 @@ import {
   ReorderTasks,
 } from './task.actions';
 import { tap } from 'rxjs/operators';
-import { Task, TaskApiService } from '../services/task-api.service';
+import { Task, TaskApiService } from 'src/app/core/services/task-api.service';
 
 export interface TaskStateModel {
   tasks: Task[];
